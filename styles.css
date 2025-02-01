@@ -1,0 +1,256 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;  /* Light beige-gray */
+    color: #333;  /* Dark gray text for better readability */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 100vh;
+
+    /* Background Image */
+    background-image: url('oxbackground.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Top Header */
+.top-header {
+    background-color: transparent;
+    color: #fff;
+    padding: 10px 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #fff;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+}
+
+.contact-info .contact-item {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: normal;
+}
+
+/* Hover Effect for Phone Number & Email */
+.contact-info .contact-item a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info .contact-item a:hover {
+    color: #f1c40f; /* Change to gold on hover */
+}
+
+.contact-info .social-icon {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.contact-info .contact-item i {
+    font-size: 1rem;
+    margin-right: 5px;
+}
+
+.vertical-line {
+    color: #fff;
+    margin: 0 10px;
+}
+
+.social-media {
+    display: flex;
+    align-items: center;
+}
+
+.social-media a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 1.5rem;
+}
+
+.social-media a:hover {
+    color: #f1c40f;
+}
+
+.social-icon i {
+    font-size: 1.5rem;
+}
+
+.social-media a:hover i {
+    color: #f1c40f;
+}
+
+/* Main Content: Lawgic Text and Menu */
+.main-content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 50px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+}
+
+/* Centered Navigation Menu */
+.right-menu {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+}
+
+.right-menu ul {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    width: 30%;  /* Reduced width to bring items closer */
+    padding: 0;
+    margin: 0;
+    gap: 15px;  /* Space between menu items */
+}
+
+.right-menu li {
+    margin: 0; /* Removed extra margin */
+}
+
+.right-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.right-menu a:hover {
+    color: #f1c40f;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 100px);
+    text-align: center;
+}
+
+/* Button Styles */
+.button-container {
+    margin-top: 50px;
+}
+
+.launch-btn {
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    background-color: #f1c40f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    animation: pulsate 1.5s ease-in-out infinite;
+}
+
+.launch-btn:hover {
+    background-color: #f39c12;
+    transform: scale(1.05);
+}
+
+.launch-btn:active {
+    background-color: #e67e22;
+}
+
+/* Pulsating Animation */
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .top-header {
+        padding: 10px 20px;
+    }
+
+    .contact-info,
+    .social-media {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact-item {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .social-media {
+        margin-top: 10px;
+    }
+
+    .right-menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .right-menu li {
+        margin: 10px 0;
+    }
+
+    .main-content {
+        flex-direction: column;
+        padding-top: 60px;
+    }
+
+    .lawgic-text {
+        font-size: 1.5rem;
+        left: 0;
+        text-align: center;
+        top: 0;
+    }
+
+    .right-menu {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Adjust Button Size for Small Screens */
+    .launch-btn {
+        padding: 15px 30px;
+        font-size: 1.2rem; /* Smaller font size */
+    }
+}
