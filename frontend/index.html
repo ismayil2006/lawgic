@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legal Chatbot</title>
+    <script src="scripts.js" defer></script> <!-- ✅ Ensure JS is linked -->
+</head>
+<body>
+    <h1>AI Legal Chatbot</h1>
+
+    <!-- ✅ Chatbot -->
+    <input type="text" id="user-input" placeholder="Ask a legal question...">
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+
+    <!-- ✅ File Upload -->
+    <h2>Upload Legal Documents</h2>
+    <input type="file" id="file-upload">
+    <button onclick="uploadFile()">Upload</button>
+    <p id="upload-status"></p>
+
+    <!-- ✅ PDF Report -->
+    <h2>Generate PDF Report</h2>
+    <textarea id="report-content" placeholder="Enter report content..."></textarea>
+    <button onclick="generateReport()">Generate Report</button>
+    <p id="report-status"></p>
+    <a id="download-link" style="display: none;">Download Report</a>
+</body>
+</html>
