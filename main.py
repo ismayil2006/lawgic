@@ -6,29 +6,29 @@ import openai
 import os
 import io
 import logging
-from dotenv import load_dotenv  # For loading API keys securely
-from PyPDF2 import PdfReader  # For PDF text extraction
+from dotenv import load_dotenv  # Secure API key storage
+from PyPDF2 import PdfReader  # For extracting text from PDFs
 from reportlab.pdfgen import canvas  # For generating reports
-import uuid  # For unique report filenames
+import uuid  # To create unique filenames
 
-# Load environment variables from .env file
+# Load environment variables
 load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Enable CORS for frontend communication (adjust as needed)
+# Enable CORS (Allow frontend requests)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (change for production)
+    allow_origins=["*"],  # Change to your frontend's actual domain in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Logging for debugging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Middleware to log requests
 @app.middleware("http")
@@ -46,9 +46,9 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chatbot(request: ChatRequest):
     try:
-        openai.api_key = os.getenv("OPENAI_API_KEY")  # Load API key from .env
+        openai.api_key = os.getenv("OPENAI_API_KEY")  # Secure API key retrieval
         messages = [
-            {"role": "system", "content": "You are a helpful and knowledgeable legal assistant. Answer the user's question as clearly and concisely as possible."},
+            {"role": "system", "content": "You are a helpful legal assistant."},
             {"role": "user", "content": request.message}
         ]
         response = openai.ChatCompletion.create(
@@ -61,15 +61,13 @@ async def chatbot(request: ChatRequest):
     except Exception as e:
         return {"error": str(e)}
 
-# File Upload Endpoint (Handles PDF & TXT)
+# File Upload Endpoint (PDF & TXT)
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     try:
-        # Check file extension
         if not file.filename.endswith((".pdf", ".txt")):
             return {"error": "Only PDF and text files are supported."}
-        
-        # Process file content
+
         if file.filename.endswith(".pdf"):
             contents = await file.read()
             pdf_reader = PdfReader(io.BytesIO(contents))
@@ -77,11 +75,10 @@ async def upload_file(file: UploadFile = File(...)):
         else:
             text = (await file.read()).decode("utf-8")
 
-        # Return summary of extracted text
         return {
             "filename": file.filename,
-            "extracted_text": text[:200],  # Return first 200 characters
-            "word_count": len(text.split()),  # Provide word count
+            "extracted_text": text[:200],
+            "word_count": len(text.split()),
         }
     except Exception as e:
         return {"error": str(e)}
@@ -93,13 +90,11 @@ async def generate_report(content: str):
         filename = f"report_{uuid.uuid4().hex}.pdf"
         filepath = f"./{filename}"
 
-        # Create PDF
         pdf = canvas.Canvas(filepath)
         pdf.drawString(100, 750, "AI Legal Chatbot Report")
         pdf.drawString(100, 730, content)
         pdf.save()
 
-        # Return PDF file for download
         return FileResponse(filepath, media_type="application/pdf", filename=filename)
     except Exception as e:
         return {"error": str(e)}
