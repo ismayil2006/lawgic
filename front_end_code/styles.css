@@ -161,6 +161,29 @@ body {
     height: calc(100vh - 100px);
     text-align: center;
 }
+/* Apply padding only to the About page */
+.about-page .container {
+    padding-top: 175px;  /* Adjust the value to move the About section down */
+}
+
+/* About Page Specific Styles */
+.container h1, .container h2, .container p, .container ul {
+    font-weight: bold; /* Ensure all text is bold */
+    color: white; /* Make all text white */
+}
+
+.about-image {
+    height: 300px;
+    background-color: #e0e0e0;
+    margin-bottom: 30px;
+    text-align: center;
+    color: white;
+}
+
+.about-image p {
+    line-height: 300px;
+    font-weight: bold;
+}
 
 /* Button Styles */
 .button-container {
