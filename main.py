@@ -7,6 +7,48 @@ import os
 from fpdf import FPDF
 from dotenv import load_dotenv
 
+import json
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
+
+# ✅ Load lawyer data
+with open("lawyers.json", "r") as file:
+    LAWYERS = json.load(file)
+
+app = FastAPI()
+
+# ✅ Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class LawyerRequest(BaseModel):
+    location: str
+    category: str
+    range: int
+
+@app.post("/find-lawyer")
+async def find_lawyer(request: LawyerRequest):
+    user_location = request.location.lower()
+    category = request.category
+    max_distance = int(request.range)
+
+    # ✅ Filter lawyers based on category
+    filtered_lawyers = [
+        lawyer for lawyer in LAWYERS
+        if lawyer["specialty"] == category and user_location in lawyer["location"].lower()
+    ]
+
+    if not filtered_lawyers:
+        return {"lawyers": []}
+
+    return {"lawyers": filtered_lawyers}
+
 # ✅ Load environment variables
 load_dotenv()
 
@@ -22,7 +64,7 @@ app.add_middleware(
 )
 
 # ✅ Retrieve OpenAI API key securely
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "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"
 
 if not openai.api_key:
     raise RuntimeError("❌ OpenAI API Key is missing! Set it in the .env file.")

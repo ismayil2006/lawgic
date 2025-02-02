@@ -155,6 +155,23 @@
         <h2>Chat with Lawrence</h2>
         <div class="chat-section" id="chat-section"></div>
         <div class="chat-input">
+            <!-- ✅ Find a Lawyer Section -->
+<div class="lawyer-search">
+    <h3>Find a Lawyer Near You</h3>
+    <input type="text" id="user-location" placeholder="Enter your city (e.g., Chapel Hill)">
+    <select id="lawyer-category">
+        <option value="Family Law">Family Law</option>
+        <option value="Criminal Defense">Criminal Defense</option>
+        <option value="Business Law">Business Law</option>
+    </select>
+    <select id="lawyer-range">
+        <option value="10">Within 10 miles</option>
+        <option value="20">Within 20 miles</option>
+        <option value="50">Within 50 miles</option>
+    </select>
+    <button id="find-lawyer-btn">Find a Lawyer</button>
+</div>
+
             <input type="text" id="chat-input" placeholder="Ask a legal question...">
             <button onclick="sendMessage()">Send</button>
         </div>
@@ -164,6 +181,8 @@
         <div style="margin-top: 20px;"></div>
 
         <button id="find-lawyer-btn" onclick="findLawyer()" disabled>Find a Lawyer</button>
+
+        
 
     </div>
 

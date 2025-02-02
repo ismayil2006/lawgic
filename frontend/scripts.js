@@ -11,51 +11,52 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("find-lawyer-btn").addEventListener("click", findLawyer);
+});
+
 async function findLawyer() {
+    const location = document.getElementById("user-location").value.trim();
+    const category = document.getElementById("lawyer-category").value;
+    const range = document.getElementById("lawyer-range").value;
+
+    if (!location) {
+        alert("Please enter your city.");
+        return;
+    }
+
     try {
         const response = await fetch("http://127.0.0.1:8000/find-lawyer", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages: messages }), // ✅ Send chat history
+            body: JSON.stringify({ location, category, range })
         });
 
-        if (!response.ok) {
-            throw new Error(`Failed to find lawyer. Server responded with ${response.status}`);
-        }
-
         const data = await response.json();
-
-        const chatSection = document.getElementById("chat-section");
-
-        if (data.lawyers && data.lawyers.length > 0) {
-            let lawyerList = "🔹 **Recommended Lawyers Near You:**\n\n";
-
+        
+        if (data.lawyers.length > 0) {
+            let results = "🔹 **Recommended Lawyers:**\n";
             data.lawyers.forEach((lawyer, index) => {
-                lawyerList += `${index + 1}. **${lawyer.name}** - ${lawyer.specialty}\n   📍 ${lawyer.location}\n   📞 ${lawyer.contact}\n\n`;
+                results += `**${index + 1}. ${lawyer.name}** - ${lawyer.specialty}\n📍 ${lawyer.location}\n📞 ${lawyer.contact}\n\n`;
             });
 
-            // ✅ Display lawyer recommendations in the chatbox
-            const botMessage = document.createElement("div");
-            botMessage.className = "chat-message";
-            botMessage.innerHTML = `Bot: Here are some lawyers who may assist you:\n\n${lawyerList}`;
-            chatSection.appendChild(botMessage);
-
+            displayMessage("Bot", results); // Show results in chat area
         } else {
-            const botMessage = document.createElement("div");
-            botMessage.className = "chat-message";
-            botMessage.textContent = "Bot: ❌ No lawyers found for your legal issue.";
-            chatSection.appendChild(botMessage);
+            displayMessage("Bot", "❌ No lawyers found for your criteria.");
         }
-
     } catch (error) {
-        console.error("🚨 Lawyer Referral Error:", error.message);
-
-        const chatSection = document.getElementById("chat-section");
-        const botMessage = document.createElement("div");
-        botMessage.className = "chat-message";
-        botMessage.textContent = "Bot: ❌ Failed to fetch lawyer referrals. Please try again.";
-        chatSection.appendChild(botMessage);
+        console.error("🚨 Error fetching lawyers:", error);
+        displayMessage("Bot", "❌ Failed to find lawyer recommendations.");
     }
+}
+
+// ✅ Helper function to display messages in the chat area
+function displayMessage(sender, message) {
+    const chatSection = document.getElementById("chat-section");
+    const botMessage = document.createElement("div");
+    botMessage.className = "chat-message";
+    botMessage.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatSection.appendChild(botMessage);
 }
 
 // ✅ Function to switch between pages
