@@ -1,45 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Launching Lawgic</title>
-   <!-- Include FontAwesome for icons -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawgic AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('oxbackground.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Upload PDF Button */
+        .upload-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 600px;
+            margin: 120px auto 50px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Chat Section */
+        .chat-section {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        input, textarea, button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button[disabled] {
+            background: #555;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 <body>
-<header class="top-header">
-  <div class="header-content">
-    <div class="contact-info">
-      <span class="contact-item"><i class="fa-solid fa-phone"></i> <a href="tel:+123456789" class="contact-link">123.456.7890</a></span> <!-- Phone Number -->
-      <span class="vertical-line">|</span>
-      <span class="contact-item"><i class="fa-solid fa-envelope"></i><a href="info@lawgic.com" class="contact-link">info@lawgic.com</a></span> <!-- Email -->
-      <span class="vertical-line">|</span>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#searches">Searches</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
     </div>
-    <div class="social-media">
-      <a href="https://www.facebook.com/uncchapelhill" class="social-icon" target="_blank">
-          <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://twitter.com/unc" class="social-icon" target="_blank">
-          <i class="fas fa-times"></i>
-      </a>
-      <a href="https://www.linkedin.com/school/unc-chapel-hill/" class="social-icon" target="_blank">
-          <i class="fab fa-linkedin-in"></i>
-      </a>
-   </div>
-  </div>
-</header>
-    <!--Menu -->
-    <div class="main-content">
-      <nav class="right-menu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html" class="active">About</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </nav>
+
+    <!-- Main Content -->
+    <div id="home" class="container">
+        <h1>Lawgic AI</h1>
+
+        <!-- Chat Section -->
+        <div class="chat-section" id="chat-section"></div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <button id="generate-pdf-btn" onclick="generateReport()" disabled>Generate PDF Report</button>
     </div>
+
+    <!-- Upload PDF Button -->
+    <button class="upload-btn" onclick="openUploadModal()">+</button>
 </body>
 </html>
