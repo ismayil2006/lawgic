@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lawgic AI</title>
+    <title>Lawrence - Your Virtual Legal Assistant</title>
     <link rel="stylesheet" href="styles.css">
     <script src="scripts.js" defer></script>
     <style>
-        /* General Body Styles */
+        /* General Styles */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -44,33 +44,30 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Upload PDF Button */
-        .upload-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #007BFF;
-            color: white;
-            padding: 10px 15px;
-            font-size: 1rem;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .upload-btn:hover {
-            background: #0056b3;
-        }
-
-        /* Main Container */
+        /* Page Sections */
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 120px auto 50px;
-            padding: 15px;
+            padding: 20px;
             background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        /* Home Page */
+        #home {
+            text-align: center;
+            display: block;
+        }
+
+        #home h1 {
+            font-size: 3rem;
+        }
+
+        #home p {
+            font-size: 1.2rem;
+            margin-top: 10px;
         }
 
         /* Chat Section */
@@ -81,12 +78,12 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             margin-bottom: 20px;
-            color: white;
         }
 
         .chat-input {
             display: flex;
             gap: 10px;
+            margin-bottom: 15px; /* Added margin to push the PDF button lower */
         }
 
         input, textarea, button {
@@ -111,35 +108,82 @@
             background: #0056b3;
         }
 
-        button[disabled] {
-            background: #555;
-            cursor: not-allowed;
+        /* Generate PDF Button */
+        #generate-pdf-btn {
+            margin-top: 10px; /* Adjust this value to move it lower */
+            display: block;
+            width: 100%;
+        }
+
+        /* Contact Page */
+        .social-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .social-links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
     <div class="navbar">
-        <a href="#home">Home</a>
-        <a href="#searches">Searches</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="javascript:showPage('home')">Home</a>
+        <a href="javascript:showPage('lawrence')">Lawrence</a>
+        <a href="javascript:showPage('about')">About</a>
+        <a href="javascript:showPage('contact')">Contact</a>
     </div>
 
-    <!-- Main Content -->
+    <!-- Home Page -->
     <div id="home" class="container">
-        <h1>Lawgic AI</h1>
+        <h1>Lawrence</h1>
+        <h3>Your Virtual Legal Assistant</h3>
+        <p>Lawrence is an advanced AI-powered legal chatbot designed to assist you with legal questions, document analysis, and professional recommendations.</p>
+    </div>
 
-        <!-- Chat Section -->
+    <!-- Lawrence (Chatbot) Page -->
+    <div id="lawrence" class="container">
+        <h2>Chat with Lawrence</h2>
         <div class="chat-section" id="chat-section"></div>
         <div class="chat-input">
-            <input type="text" id="chat-input" placeholder="Type your message...">
+            <input type="text" id="chat-input" placeholder="Ask a legal question...">
             <button onclick="sendMessage()">Send</button>
         </div>
         <button id="generate-pdf-btn" onclick="generateReport()" disabled>Generate PDF Report</button>
     </div>
 
-    <!-- Upload PDF Button -->
-    <button class="upload-btn" onclick="openUploadModal()">+</button>
+    <!-- About Page -->
+    <div id="about" class="container">
+        <h2>About</h2>
+        <p>Placeholder text about the project. This can be updated later.</p>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="container">
+        <h2>Contact Us</h2>
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+        </div>
+    </div>
+
+    <script>
+        function showPage(page) {
+            document.querySelectorAll(".container").forEach(container => {
+                container.style.display = "none";
+            });
+            document.getElementById(page).style.display = "block";
+        }
+    </script>
 </body>
 </html>
