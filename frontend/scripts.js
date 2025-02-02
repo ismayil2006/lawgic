@@ -1,67 +1,46 @@
-// ✅ 1. Chatbot Functionality
+let messages = [];
+
 async function sendMessage() {
-  const userInput = document.getElementById("user-input").value;
-  const responseElement = document.getElementById("response");
+    const userInput = document.getElementById("chat-input").value;
+    const chatSection = document.getElementById("chat-section");
+    const generatePdfBtn = document.getElementById("generate-pdf-btn");
 
-  // Connects to FastAPI chatbot endpoint
-  const response = await fetch("http://127.0.0.1:8000/chat", {  
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ message: userInput })
-  });
+    if (!userInput.trim()) {
+        alert("Please enter a message!");
+        return;
+    }
 
-  const data = await response.json();
-  responseElement.innerText = data.response || "Error: " + data.error;
-}
+    messages.push({ role: "user", content: userInput });
 
-// ✅ 2. File Upload
-async function uploadFile() {
-  const fileInput = document.getElementById("file-upload").files[0];
-  const uploadStatus = document.getElementById("upload-status");
+    const userMessage = document.createElement("div");
+    userMessage.className = "chat-message";
+    userMessage.textContent = `You: ${userInput}`;
+    chatSection.appendChild(userMessage);
 
-  if (!fileInput) {
-      uploadStatus.innerText = "Please select a file.";
-      return;
-  }
+    document.getElementById("chat-input").value = "";
 
-  const formData = new FormData();
-  formData.append("file", fileInput);
+    try {
+        const response = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: messages }),
+        });
 
-  // Connects to FastAPI upload endpoint
-  const response = await fetch("http://127.0.0.1:8000/upload", {  
-      method: "POST",
-      body: formData
-  });
+        const data = await response.json();
 
-  const data = await response.json();
-  uploadStatus.innerText = data.filename
-      ? `File uploaded: ${data.filename} (${data.word_count} words)`
-      : `Error: ${data.error}`;
-}
+        if (data.response) {
+            messages.push({ role: "assistant", content: data.response });
 
-// ✅ 3. Generate PDF Report
-async function generateReport() {
-  const content = document.getElementById("report-content").value;
-  const reportStatus = document.getElementById("report-status");
-  const downloadLink = document.getElementById("download-link");
+            const botMessage = document.createElement("div");
+            botMessage.className = "chat-message";
+            botMessage.textContent = `Bot: ${data.response}`;
+            chatSection.appendChild(botMessage);
+        }
 
-  // Connects to FastAPI report generation endpoint
-  const response = await fetch("http://127.0.0.1:8000/generate-report", {  
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: content })
-  });
-
-  if (response.ok) {
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      downloadLink.href = url;
-      downloadLink.download = "report.pdf";
-      downloadLink.innerText = "Download Report";
-      downloadLink.style.display = "block";
-  } else {
-      reportStatus.innerText = "Error generating report.";
-  }
+        if (messages.length > 1) {
+            generatePdfBtn.disabled = false;
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
